@@ -19,6 +19,11 @@ resource "docker_container" "contenedor" {
     }
 }
 
+# Qué contiene esa variable?
+# docker_container.contenedor_personalizado
+#
+# Un mapa de recursos, donde cada recurso tiene por clave?
+# Las claves originales del mapa que pongo en el for_each
 resource "docker_container" "contenedor_personalizado" {
     # count       =  length( var.contenedores_a_crear_con_sus_puertos )   UPS !
     for_each    =  var.contenedores_a_crear_con_sus_puertos
