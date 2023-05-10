@@ -1,0 +1,16 @@
+variable "numero_de_contenedores" {
+    type            = number
+    description     = "Número de contenedores a crear"
+}
+# Que os parece? A mi GUAY !
+# Siempre y cuando ... esos contenedores no requieran de mucha personalización
+
+# Y si requiero de más personalización?
+# Quiero poder poner nombres arbitrarios y puertos externos arbitrarios a cada contenedor
+# contenedorA < 8090
+# contenedorB < 9090
+
+variable "contenedores_a_crear_con_sus_puertos" {
+    type            = map(number)
+    description     = "Contenedores a crear con sus puertos"
+}
