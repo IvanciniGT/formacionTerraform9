@@ -7,6 +7,12 @@ variable "nombre_contenedor" {
                          # Venga tio... Y entonces para que sirve esto?
                          # Para esto NO sirve. 
                          # El jueves os cuento para que sirve esa marca default !
+    validation {
+        # Expresiones regulares... sencillo ! Siempre y cuando sepa de regex
+        // PATRON: "^[a-zA-Z][a-zA-Z0-9_-]{4,}$"
+        condition   = length( regexall("^[a-zA-Z][a-zA-Z0-9_-]{4,}$", var.nombre_contenedor) ) == 1
+        error_message = "El nombre del conteendor debe empezar por una letra, y tener al menos otros 4 caracteres, donde adicionalemnte se pueden usar dígitos, guiones medios y bajos"
+    }
 }
 
 variable "imagen_repo" {
@@ -22,6 +28,35 @@ variable "imagen_tag" {
 variable "autoarrancar_el_contenedor" {
     type        = bool
     description = "Indica si el contenedor se debe ejcutar al crearse"
+}
+
+variable "cuota_cpu" {
+    type        = number
+    description = "Indica la cuota de cpu permitida para el contenedor (base 1024 = 1 core)"
+    # Concepto RARO donde lo haya
+    nullable    = true
+    # El valor null es un valor ADICIONAL en terraform, que debe ser ASIGNADO
+    # Significa que la variable, ADEMAS de poder contener un valor del tipo suministrado,
+    # TAMBIEN PUEDE CONTENER EL VALOR null
+    
+    # Puedo definir validaciones que TERRAFORM hará a las variables antes de comenzar
+    # Puedo definir muchas. Para que el valor se de por bueno, TODAS deben cumplirse
+    # En una validación NUNCA PUEDO REFERENCIAR A OTRA VARIABLE. Terraform me da error
+    validation {
+        condition       =   var.cuota_cpu == null ? true : var.cuota_cpu > 0 # && var.cuota_cpu <= 4096 Esto funciona. No me compensa
+                            # OPERADORES PERMITIDOS: + - * / > < == != && ||
+                            # Hemos de poner una expresión de que devuelva true o false
+                            # Si devuelve true, se entiende que la variable está correctamente rellena
+                            # Si devuelve false, TERRAFORM PARA y muestra el "error_message"
+        error_message   =   "El valor de la quota de cpu tiene que ser mayor que CERO"
+    }
+    validation {
+        condition       =   var.cuota_cpu == null ? true : var.cuota_cpu <= 4096 
+                            # Hemos de poner una expresión de que devuelva true o false
+                            # Si devuelve true, se entiende que la variable está correctamente rellena
+                            # Si devuelve false, TERRAFORM PARA y muestra el "error_message"
+        error_message   =   "El valor de la quota de cpu tiene que ser como mucho 4096"
+    }
 }
 
 #variable "variables_de_entorno" {
@@ -40,3 +75,41 @@ variable "variables_de_entorno" {
     type        = map(string)
     description = "Variables de entorno para el contenedor"
 } 
+
+variable "puertos_del_contenedor" {
+    type        = set(object({
+                                interno     = number    # En un rango
+                                externo     = number    # En un rango
+                                ip          = optional(string, "127.0.0.1") # regex
+                                protocolo   = optional(string, "tcp")   # tcp upd
+                            }))
+    description = "Puertos a exponer del contenedor"
+    
+    validation {
+        condition       = alltrue ( [ for puerto in var.puertos_del_contenedor: puerto.interno > 0 ] )
+        error_message   = "El puerto interno debe ser mayor que 0"
+    }
+    validation {
+        condition       = alltrue ( [ for puerto in var.puertos_del_contenedor: puerto.externo > 0 ] )
+        error_message   = "El puerto externo debe ser mayor que 0"
+    }
+    validation {
+        condition       = alltrue ( [ for puerto in var.puertos_del_contenedor: puerto.interno < 32500 ] )
+        error_message   = "El puerto interno debe ser menor que 32500"
+    }
+    validation {
+        condition       = alltrue ( [ for puerto in var.puertos_del_contenedor: puerto.externo < 32500 ] )
+        error_message   = "El puerto externo debe ser menor que 32500"
+    }
+    validation {
+        condition       = alltrue ( [ for puerto in var.puertos_del_contenedor: 
+                                        contains( ["tcp","udp"] , puerto.protocolo) ] )
+        error_message   = "El protocolo debe ser tcp o udp"
+    }    
+    validation {
+        condition       = alltrue ( [ for puerto in var.puertos_del_contenedor: 
+                                        length( regexall("^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$", puerto.ip) ) == 1
+                                    ] )
+        error_message   = "La IP del puerto debe ser válida"
+    }
+}

@@ -276,7 +276,15 @@ Al definir una variable hemos de suministrar:
                         - set(...)
                         - list(...)
                         - map(...)
-                        - ???
+                        - object            Es como un mapa... pero:
+                                                - las claves van prefijadas
+                                                - asociado a cada clave puedo tener un tipo de datos diferente
+                            object({
+                                interno     = number
+                                externo     = number
+                                ip          = optional(string, "127.0.0.1")
+                                protocolo   = optional(string, "tcp")
+                            })
 
 ## IMPORTANTE
 
