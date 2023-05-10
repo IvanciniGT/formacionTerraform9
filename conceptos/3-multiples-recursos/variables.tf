@@ -22,7 +22,9 @@ variable "contenedores_a_crear_con_sus_puertos" {
 variable "contenedores_a_crear_mas_personalizados" {
     type            = map(object({
                                         puerto  = number
-                                        ip      = string
-                                    }))
+                                        ip      = optional( string, "0.0.0.0" )                                    
+                
+                                }))
+                                        
     description     = "Contenedores a crear con sus puertos e IPs"
 }
