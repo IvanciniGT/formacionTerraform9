@@ -19,6 +19,16 @@ resource "docker_container" "contenedor" {
     }
 }
 
+resource "docker_container" "balanceador" {
+    count       = var.numero_de_contenedores > 1 ? 1 : 0
+    name        = "balanceador"
+    image       = docker_image.imagen.image_id 
+    ports       {
+                    internal    =   80
+                    external    =   8079
+    }
+}
+
 # Qué contiene esa variable?
 # docker_container.contenedor_personalizado
 #
@@ -38,5 +48,26 @@ resource "docker_container" "contenedor_personalizado" {
     ports       {
                     internal    =   80
                     external    =   each.value
+    }
+}
+resource "docker_container" "contenedor_mas_personalizado" {
+    for_each    =  var.contenedores_a_crear_mas_personalizados
+    name        = each.key
+    image       = docker_image.imagen.image_id 
+    ports       {
+                    internal    =   80
+                    external    =   each.value.puerto
+                    ip          =   each.value.ip
+    }
+}
+resource "docker_container" "contenedor_mas_personalizado2" {
+    count       = length(var.contenedores_a_crear_mas_personalizados2)
+                    # count.index
+    name        = var.contenedores_a_crear_mas_personalizados2[count.index].nombre
+    image       = docker_image.imagen.image_id 
+    ports       {
+                    internal    =   80
+                    external    =   var.contenedores_a_crear_mas_personalizados2[count.index].puerto
+                    ip          =   var.contenedores_a_crear_mas_personalizados2[count.index].ip
     }
 }

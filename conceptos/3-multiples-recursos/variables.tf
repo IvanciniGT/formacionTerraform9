@@ -28,3 +28,14 @@ variable "contenedores_a_crear_mas_personalizados" {
                                         
     description     = "Contenedores a crear con sus puertos e IPs"
 }
+
+variable "contenedores_a_crear_mas_personalizados2" {
+    type            = list(object({
+                                        nombre  = string
+                                        puerto  = number
+                                        ip      = optional( string, "0.0.0.0" )                                    
+                
+                                }))
+                                        
+    description     = "Contenedores a crear con sus puertos e IPs"
+}

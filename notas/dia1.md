@@ -183,7 +183,11 @@ En esos archivos vamos a tener una serie de marcas de primer nivel, que hemos de
 - resource      LUNES
 - output        MARTES
 - variable      MIERCOLES: Es lo más complejo CON MUCHA DIFERENCIA QUE TIENE TERRAFORM 
+-----
+    resources
+        provisioners
 - locals        JUEVES: Otro tipo de variables
+----
 - module        JUEVES
 - data          VIERNES
 
