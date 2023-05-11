@@ -24,18 +24,18 @@ Para crear un apr de claves publica/privada:
 Queremos un script que permita generar claves ssh. 
 
 Debe ser parametrizable:
-- algoritmo y su configuración
-- carpeta de los ficheros de las claves
-- regenerar_claves_si_existen
+- algoritmo y su configuración              algoritmo / configuracion
+- carpeta de los ficheros de las claves     directorio_ficheros_claves    
+-                                           regenerar_claves_si_existen               
 Debe validar las variables/parametros
 
 Cuando las claves se generen, se exportarán:
 - output
 - en ficheros dentro de una carpeta
-    privateKey.pem
-    privateKey.openssh
-    publicKey.pem
-    publicKey.openssh
+    clavePrivada.pem
+    clavePrivada.openssh
+    clavePublica.pem
+    clavePublica.openssh
 
 Las claves se exportan en 2 formatos: openssh, pem
 
