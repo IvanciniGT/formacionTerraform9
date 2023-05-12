@@ -33,7 +33,7 @@ variable "algoritmo" {
                                 })
     nullable            = false
     default             = {
-                            nombre  = "ECDSA" # "rsa"
+                            nombre  = "RSA" # "rsa"
                             configuracion = "P256" # "p256"
                           }
     validation {
