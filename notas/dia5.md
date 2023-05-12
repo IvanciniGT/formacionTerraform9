@@ -38,3 +38,38 @@ haciendo llamadas a unos MODULOS PROPIOS, que encapsulan la funcionalidad de la
 creación de esos recursos en UN CLOUD
 
 En un momento dado puede ser que acabe con 500-5000 scripts
+
+# Monto un script
+
+Para desplegar una infra.
+
+Cuantas veces querre ejecutar ese script? 
+Si fuera solo 1, montaría un script? NO
+Muchas... para qué esas muchas?
+- Para evolucionar (mantener) esa infra <<<< Con el fichero .tfstate (ES CRITICO !)
+- Para desplegar más infras en otros sitios, iguales a esta.
+    - Por un lado necesitariamos ficheros de config diferentes (variables)
+    - Cada entorno necesita tener su propio tfstate
+
+
+# Workspace
+
+Espacio de trabajo independiente dentro de un script de terraform, que contiene su propio archivo tfstate
+
+Si no especifico nada, por defecto se trabaja en el ws: default <<< ESO ES UNA MUY MALA PRACTICA
+
+# Submodulos de git
+
+REPO git: Script
+
+REPO git entorno1
+    Fichero de variables del entorno1
+    submodulo de git -> REPO git: Script
+    
+
+REPO git entorno2
+    Fichero de variables del entorno2
+    submodulo de git -> REPO git: Script    
+    
+Si el entorno es por cliente -> Repos diferentes
+Si entorno pro, entorno test para un mismo cliente -> Mismo repo
