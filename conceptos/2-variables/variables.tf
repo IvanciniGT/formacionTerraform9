@@ -6,7 +6,7 @@ variable "nombre_contenedor" {
                          # MUY MALA PRACTICA !
                          # Venga tio... Y entonces para que sirve esto?
                          # Para esto NO sirve. 
-                         # El jueves os cuento para que sirve esa marca default !
+                         # Para definir los davors por defecto en los MODULOS
     validation {
         # Expresiones regulares... sencillo ! Siempre y cuando sepa de regex
         // PATRON: "^[a-zA-Z][a-zA-Z0-9_-]{4,}$"

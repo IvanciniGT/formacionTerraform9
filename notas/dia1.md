@@ -199,7 +199,7 @@ En nada... Me complica un huevo la vida... Las pantallitas son mucho más fácil
 
 Que nos permitirá hacer operaciones sobre los scripts:
 - init          Descargar los providers que necesite mi script
-                y algo más que os contaré el Jueves!
+                y los modulos
 - validate      Valida la sintaxis de un script
 - refresh       Se conecta con el proveedor para preguntar por el estado real de los recursos
 - plan          Determina el plan de ejecución para conseguir el estado DESEADO de mi catalogo de recursos (SCRIPT)

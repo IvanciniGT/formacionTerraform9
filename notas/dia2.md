@@ -55,7 +55,7 @@ Dentro de eso archivos encontramos ciertas marcas:
 - locals        "Variables" de uso interno
 - data          Una query que hacemos al proveedor externo para obtener
                 información de recursos allí almacenados, pero no gestionados por mi o si!
-- module        ???
+- module        Un conjunto de recursos parametrizables, que ofrecen unas salidas, que puede ser reutilizado
 
 ### Proveedor (1)
 
